@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="error_message">Please try again by clicking REFRESH</string>
+    <string name="setting_title">Sort by:</string>
+    <string name="sort_1">Popularity</string>
+    <string name="sort_2">Average Review</string>
 </resources>
