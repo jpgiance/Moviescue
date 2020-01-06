@@ -5,8 +5,10 @@ import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,24 +22,59 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
-    int img[];
+
     private Context ctx;
     private List<Movie> moviesList;
     private Picasso mPicasso;
+    private final MovieAdapterOnClickHandler mClickHandler;
 
 
-    public MovieAdapter( Context context, int[] images){
+
+
+    public interface MovieAdapterOnClickHandler {
+        void onClick();// void onClick(Movie movie);
+    }
+
+    public MovieAdapter( Context context, MovieAdapterOnClickHandler clickHandler ){
 
       ctx = context;
-      img = images;
       mPicasso = new Picasso.Builder(context).build();
-
+      mClickHandler = clickHandler;
 
     }
 
+    public class MovieHolder extends RecyclerView.ViewHolder implements OnClickListener {
+
+        ImageView movieImage1;
+        ImageView movieImage2;
+
+
+
+        public MovieHolder( View itemView){
+
+            super(itemView);
+
+            movieImage1 = itemView.findViewById(R.id.image_1);
+            movieImage2 = itemView.findViewById(R.id.image_2);
+
+            //itemView.setOnClickListener(this);
+            movieImage1.setOnClickListener(this);
+            //movieImage2.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick( View v ) {
+            int adapterPosition = getAdapterPosition();
+            //Movie selectedMovie = moviesList.get(adapterPosition);
+            //mClickHandler.onClick(selectedMovie);
+            mClickHandler.onClick();
+        }
+    }
+
+
     @NonNull
     @Override
-    public MovieAdapter.MovieHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
+    public MovieHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
 
         LayoutInflater movieInflater = LayoutInflater.from(ctx);
         View movieView = movieInflater.inflate(R.layout.movie_item, parent, false);
@@ -70,7 +107,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         if (null == moviesList) {
             return 0;
         }
-        return moviesList.size();
+        return moviesList.size()/2;
 
     }
 
@@ -90,24 +127,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     }
 
 
-    public class MovieHolder extends RecyclerView.ViewHolder{
 
-        ImageView movieImage1;
-        ImageView movieImage2;
-
-
-
-        public MovieHolder( View itemView){
-
-            super(itemView);
-
-
-            movieImage1 = itemView.findViewById(R.id.image_1);
-            movieImage2 = itemView.findViewById(R.id.image_2);
-        }
-
-
-    }
 
 
 }

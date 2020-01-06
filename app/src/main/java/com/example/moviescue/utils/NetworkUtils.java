@@ -38,13 +38,14 @@ public class NetworkUtils {
 
 
 
-    public static URL buildUrl(int sortPreference) {
+
+    public static URL buildUrl(String sortPreference) {
 
         URL url = null;
 
         switch (sortPreference) {
 
-            case 1: {
+            case "popularity": {
                 Uri builtUri = Uri.parse(TMDB_BASE_URL
                         + API_QUERY_SORT_
                         + SORT_OPTION_1
@@ -63,7 +64,7 @@ public class NetworkUtils {
                 return url;
 
             }
-            case 2: {
+            case "review": {
                 Uri builtUri = Uri.parse(TMDB_BASE_URL
                         + API_QUERY_SORT_
                         + SORT_OPTION_2

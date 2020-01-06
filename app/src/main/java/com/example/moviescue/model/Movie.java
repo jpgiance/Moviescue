@@ -7,8 +7,8 @@ public class Movie {
     private String overview;
     private String imageLink;
 
-    private float voteAvg;
-    private float popularity;
+    private String voteAvg;
+    private String popularity;
 
     public Movie(String movieTitle){
         this.title = movieTitle;
@@ -33,18 +33,34 @@ public class Movie {
         this.imageLink = link;
     }
 
-    public void SetVoteAvg(Float vote){
+    public void SetVoteAvg(String vote){
 
         this.voteAvg = vote;
     }
 
-    public void SetPopularity(Float popular){
+    public void SetPopularity(String popular){
 
         this.popularity = popular;
     }
 
     public String getImageLink(){
         return this.imageLink;
+    }
+
+    public String getTitle(){
+        return this.title;
+    }
+
+    public String getReleaseDate(){
+        return this.releaseDate;
+    }
+
+    public String getOverview(){
+        return this.overview;
+    }
+
+    public String getVoteAvg(){
+        return this.voteAvg;
     }
 
 }

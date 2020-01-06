@@ -1,13 +1,18 @@
 package com.example.moviescue;
 
+import com.example.moviescue.model.Movie;
 import com.example.moviescue.utils.JsonUtils;
 import com.example.moviescue.utils.NetworkUtils;
+import com.example.moviescue.MovieAdapter.MovieAdapterOnClickHandler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,22 +23,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler {
 
     private RecyclerView movieRecycler;
     private MovieAdapter adapter;
     private ProgressBar updateIndicator;
     private TextView errorMessage;
-    String sortingFilter = "1";                                  // sorting filter state variable (by popularity = 1) (by vote_average = 2) (Default = 1)
+    private MenuItem popularityFilter;
+    private MenuItem reviewFilter;
 
-   // public static Picasso mPicasso;
-
-    int images[] = {R.drawable.andrew,
-            R.drawable.gun,
-    };
+    private String POPULARITY = "popularity";
+    private String REVIEW = "review";
+    private String filter = POPULARITY;
 
 
 
@@ -42,28 +47,47 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        popularityFilter = findViewById(R.id.sort_1);
+        reviewFilter = findViewById(R.id.sort_2);
         errorMessage = findViewById(R.id.error_message);
         movieRecycler = findViewById(R.id.movie_recycler);
-        adapter = new MovieAdapter(this, images);
+        adapter = new MovieAdapter(this, this);
         movieRecycler.setAdapter(adapter);
         movieRecycler.setLayoutManager(new LinearLayoutManager(
                                                     this,
                                                             LinearLayoutManager.VERTICAL,
                                                 false));
-
+        movieRecycler.setHasFixedSize(true);
         updateIndicator = findViewById(R.id.update_indicator);
 
 
-        updateActivity();
+
+        updateActivity(filter);
 
     }
 
+    @Override
+    public void onClick() { //public void onClick( Movie movie ) {
+        Context context = this;
+        Class movieDetail = MovieDetail.class;
+        Intent newIntent = new Intent(context, movieDetail);
+        //newIntent.putExtra("movie", (Serializable) movie);
+        startActivity(newIntent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.query_settings, menu);
+
+        popularityFilter = menu.findItem(R.id.sort_1);
+        reviewFilter = menu.findItem(R.id.sort_2);
+        popularityFilter.setChecked(true);
+        reviewFilter.setChecked(false);
+
+
 
         return true;
     }
@@ -72,17 +96,23 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
         int id = item.getItemId();
 
+
+
         switch (id){
 
             case R.id.sort_1:
-                sortingFilter = "1";
-                updateActivity();
+                popularityFilter.setChecked(true);
+                reviewFilter.setChecked(false);
+                filter = POPULARITY;
+                updateActivity(filter);
                 return true;
 
 
             case R.id.sort_2:
-                sortingFilter = "2";
-                updateActivity();
+                popularityFilter.setChecked(false);
+                reviewFilter.setChecked(true);
+                filter = REVIEW;
+                updateActivity(filter);
                 return true;
 
 
@@ -113,13 +143,17 @@ public class MainActivity extends AppCompatActivity {
      * invoke other method to query the TMDB api
      */
 
-    private void updateActivity(){
+    private void updateActivity(String filter){
 
         errorMessage.setVisibility(View.INVISIBLE);
         movieRecycler.setVisibility(View.VISIBLE);
 
-        new FetchMovieData().execute(sortingFilter);
+
+
+        new FetchMovieData().execute(filter);
+
     }
+
 
 
     public class FetchMovieData extends AsyncTask<String, Void, String> {
@@ -137,8 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
-            int sortPreference = Integer.valueOf(params[0]);
-            URL apiQuery = NetworkUtils.buildUrl(sortPreference);
+            URL apiQuery = NetworkUtils.buildUrl(params[0]);
 
             try {
                 return NetworkUtils.getResponseFromHttpUrl(apiQuery);
