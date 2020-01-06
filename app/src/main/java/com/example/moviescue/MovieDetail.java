@@ -22,7 +22,7 @@ public class MovieDetail extends AppCompatActivity {
     private TextView overview;
 
     @Override
-    public void onCreate( @Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState ) {
+    public void onCreate(  Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_movie);
 
