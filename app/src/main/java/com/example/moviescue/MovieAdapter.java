@@ -59,7 +59,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
             //itemView.setOnClickListener(this);
             movieImage1.setOnClickListener(this);
-            //movieImage2.setOnClickListener(this);
+            movieImage2.setOnClickListener(this);
         }
 
         @Override

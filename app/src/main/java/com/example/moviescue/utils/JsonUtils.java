@@ -41,12 +41,13 @@ public class JsonUtils {
 
                 newMovie = queryResults.getJSONObject(i);
 
-                Movie movie = new Movie(newMovie.getString("title"));
-                movie.SetReleaseDate(newMovie.getString("release_date"));
-                movie.SetOverview(newMovie.getString("overview"));
-                movie.SetImageLink(newMovie.getString("poster_path"));
-               // movie.SetVoteAvg((Float) newMovie.get("vote_average"));
-                //movie.SetPopularity((Float) newMovie.get("popularity"));
+
+                Movie movie = new Movie(newMovie.optString("title"));
+                movie.SetReleaseDate(newMovie.optString("release_date"));
+                movie.SetOverview(newMovie.optString("overview"));
+                movie.SetImageLink(newMovie.optString("poster_path"));
+                movie.SetVoteAvg(JSONObject.numberToString((Number) newMovie.get("vote_average")));
+                movie.SetPopularity(JSONObject.numberToString((Number)newMovie.get("popularity")));
 
                 movieList.add(movie);
 

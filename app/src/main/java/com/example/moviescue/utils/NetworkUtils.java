@@ -49,7 +49,7 @@ public class NetworkUtils {
                 Uri builtUri = Uri.parse(TMDB_BASE_URL
                         + API_QUERY_SORT_
                         + SORT_OPTION_1
-                        + LIST_SORT_ASCENDING
+                        + LIST_SORT_DESCENDING
                         + API_QUERY_KEY
                         + API_KEY_VALUE)
                         .buildUpon()
