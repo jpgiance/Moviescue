@@ -32,7 +32,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
 
     public interface MovieAdapterOnClickHandler {
-        void onClick();// void onClick(Movie movie);
+        void onClick(Movie movie);
     }
 
     public MovieAdapter( Context context, MovieAdapterOnClickHandler clickHandler ){
@@ -57,17 +57,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
             movieImage1 = itemView.findViewById(R.id.image_1);
             movieImage2 = itemView.findViewById(R.id.image_2);
 
-            //itemView.setOnClickListener(this);
+
             movieImage1.setOnClickListener(this);
             movieImage2.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick( View v ) {
+
             int adapterPosition = getAdapterPosition();
-            //Movie selectedMovie = moviesList.get(adapterPosition);
-            //mClickHandler.onClick(selectedMovie);
-            mClickHandler.onClick();
+            if (v.getId() == movieImage1.getId()){
+
+                mClickHandler.onClick(moviesList.get(adapterPosition*2));
+
+            }else if(v.getId() == movieImage2.getId()){
+
+                mClickHandler.onClick(moviesList.get(adapterPosition*2 + 1));
+            }
+
+
         }
     }
 

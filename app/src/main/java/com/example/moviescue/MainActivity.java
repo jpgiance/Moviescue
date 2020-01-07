@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     }
 
     @Override
-    public void onClick() { //public void onClick( Movie movie ) {
+    public void onClick(Movie movie) {
         Context context = this;
         Class movieDetail = MovieDetail.class;
         Intent newIntent = new Intent(context, movieDetail);
-        //newIntent.putExtra("movie", (Serializable) movie);
+        newIntent.putExtra("movie", (Serializable) movie);
         startActivity(newIntent);
     }
 
