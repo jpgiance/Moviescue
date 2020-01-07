@@ -32,8 +32,7 @@ public class MovieDetail extends AppCompatActivity {
 //        vote = findViewById(R.id.movie_avg_vote);
 //        overview = findViewById(R.id.movie_overview);
 
-        title.setText("Hello World");
-        title.setVisibility(View.VISIBLE);
+
 
 
 
