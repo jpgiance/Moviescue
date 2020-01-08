@@ -37,7 +37,14 @@ public class NetworkUtils {
 
 
 
-
+    /**
+     * This method takes a String that encodes the filter selected by the user and
+     * builds the URL ready to be use in the API query
+     *
+     * @param sortPreference encodes the filter selected by the user
+     *
+     * @return URL to be used for TMDB API requests
+     */
 
     public static URL buildUrl(String sortPreference) {
 
@@ -60,7 +67,7 @@ public class NetworkUtils {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                Log.v(TAG, "Built URI " + url);
+                Log.d(TAG, "Built URI " + url);
                 return url;
 
             }
@@ -90,6 +97,7 @@ public class NetworkUtils {
 
 
     }
+
 
     /**
      * This method returns the entire result from the HTTP response.

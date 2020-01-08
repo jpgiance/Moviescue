@@ -8,9 +8,11 @@ public class Movie implements Serializable {
     private String releaseDate;
     private String overview;
     private String imageLink;
-    private String duration;
     private String voteAvg;
     private String popularity;
+
+
+
 
     public Movie(String movieTitle){
         this.title = movieTitle;
@@ -45,10 +47,7 @@ public class Movie implements Serializable {
         this.popularity = popular;
     }
 
-    public void SetDuration(String duration){
 
-        this.duration = duration;
-    }
 
     public String getImageLink(){
         return this.imageLink;
@@ -70,9 +69,6 @@ public class Movie implements Serializable {
         return this.voteAvg;
     }
 
-    public String getDuration(){
-        return this.duration;
-    }
 
 }
 

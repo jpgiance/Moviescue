@@ -1,15 +1,12 @@
 package com.example.moviescue;
 
 import android.content.Context;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +22,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     private Context ctx;
     private List<Movie> moviesList;
-    private Picasso mPicasso;
     private final MovieAdapterOnClickHandler mClickHandler;
+
 
 
 
@@ -35,13 +32,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         void onClick(Movie movie);
     }
 
+
+
+
+
     public MovieAdapter( Context context, MovieAdapterOnClickHandler clickHandler ){
 
       ctx = context;
-      mPicasso = new Picasso.Builder(context).build();
       mClickHandler = clickHandler;
 
     }
+
+
+
+
+
 
     public class MovieHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
@@ -63,6 +68,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
         }
 
+
+
+
+
         @Override
         public void onClick( View v ) {
 
@@ -71,14 +80,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
                 mClickHandler.onClick(moviesList.get(adapterPosition*2));
 
-            }else if(v.getId() == movieImage2.getId()){
+            }
+            else if(v.getId() == movieImage2.getId()){
 
                 mClickHandler.onClick(moviesList.get(adapterPosition*2 + 1));
-            }
+            }else {
+                Log.d("Recycler items onClick ", "Item ID not recognized");}
 
 
         }
     }
+
+
+
 
 
     @NonNull
@@ -93,23 +107,32 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         return holder;
     }
 
+
+
+
+
+
     @Override
     public void onBindViewHolder( @NonNull MovieAdapter.MovieHolder holder, int position ) {
 
 
-        mPicasso.get()
+        Picasso.get()
                 .load(loadMoviePoster(position*2))
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.ic_launcher)             // placeholder could be improved!!
                 .into(holder.movieImage1);
 
 
-        mPicasso.get()
+        Picasso.get()
                 .load(loadMoviePoster(position*2 + 1))
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.ic_launcher)            // placeholder could be improved!!
                 .into(holder.movieImage2);
 
 
     }
+
+
+
+
 
     @Override
     public int getItemCount(){
@@ -120,8 +143,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     }
 
+
+
+
+
+
     /**
-     *
+     * This method update Movies List state
      *
      * @param movies
      */
@@ -130,13 +158,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         notifyDataSetChanged();
     }
 
+
+
+
+
+
     public String loadMoviePoster(int pos){
 
-        return ("https://image.tmdb.org/t/p/w185/" + this.moviesList.get(pos).getImageLink());
+        return ( NetworkUtils.BASE_POSTER_PATH + NetworkUtils.SIZE_185 + this.moviesList.get(pos).getImageLink());
     }
-
-
-
 
 
 }

@@ -15,9 +15,6 @@ public class JsonUtils {
 
 
 
-
-
-
 /**
  * This method parses the json obtained from TMDB api and return a list of movies
  *

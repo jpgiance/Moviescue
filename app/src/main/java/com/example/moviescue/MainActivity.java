@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     private String POPULARITY = "popularity";
     private String REVIEW = "review";
-    private String filter = POPULARITY;
+    private String filter = POPULARITY;        // By default filter popularity is used
 
 
 
@@ -47,11 +48,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // ....finding views
         popularityFilter = findViewById(R.id.sort_1);
         reviewFilter = findViewById(R.id.sort_2);
         errorMessage = findViewById(R.id.error_message);
         movieRecycler = findViewById(R.id.movie_recycler);
+        updateIndicator = findViewById(R.id.update_indicator);
+
+
+
+        // ....setting up RecyclerView
         adapter = new MovieAdapter(this, this);
         movieRecycler.setAdapter(adapter);
         movieRecycler.setLayoutManager(new LinearLayoutManager(
@@ -59,22 +65,34 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                                                             LinearLayoutManager.VERTICAL,
                                                 false));
         movieRecycler.setHasFixedSize(true);
-        updateIndicator = findViewById(R.id.update_indicator);
 
 
-
+        // ....fetching data and populating main screen
         updateActivity(filter);
 
     }
+
+
+
+
+    /**
+     * This method is overridden by MainActivity class in order to handle RecyclerView item
+     * clicks.
+     *
+     * @param movie The movie poster that was clicked
+     */
 
     @Override
     public void onClick(Movie movie) {
         Context context = this;
         Class movieDetail = MovieDetail.class;
         Intent newIntent = new Intent(context, movieDetail);
-        newIntent.putExtra("movie", (Serializable) movie);
+        newIntent.putExtra("movie", movie);
         startActivity(newIntent);
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
@@ -87,10 +105,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         popularityFilter.setChecked(true);
         reviewFilter.setChecked(false);
 
-
-
         return true;
     }
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
@@ -103,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             case R.id.sort_1:
                 popularityFilter.setChecked(true);
                 reviewFilter.setChecked(false);
-                filter = POPULARITY;
+                setFilter(POPULARITY);
                 updateActivity(filter);
                 return true;
 
@@ -111,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             case R.id.sort_2:
                 popularityFilter.setChecked(false);
                 reviewFilter.setChecked(true);
-                filter = REVIEW;
+                setFilter(REVIEW);
                 updateActivity(filter);
                 return true;
 
@@ -121,8 +141,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
         }
 
-
     }
+
+
+
+
+
+    private void setFilter(String filterSelected){
+
+        filter = filterSelected;
+    }
+
+
+
 
     private void showMoviesView() {
 
@@ -131,11 +162,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     }
 
 
+
+
+
     private void showErrorMessage() {
 
         movieRecycler.setVisibility(View.INVISIBLE);
         errorMessage.setVisibility(View.VISIBLE);
     }
+
+
+
 
 
     /**
@@ -148,13 +185,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         errorMessage.setVisibility(View.INVISIBLE);
         movieRecycler.setVisibility(View.VISIBLE);
 
-
-
         new FetchMovieData().execute(filter);
 
     }
 
 
+
+
+
+    /**
+     * This class provide the methods that allow Async Task for http communication
+     *
+     */
 
     public class FetchMovieData extends AsyncTask<String, Void, String> {
 
@@ -180,9 +222,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 e.printStackTrace();
                 return null;
             }
-
         }
-
 
         @Override
         protected void onPostExecute( String queryResponse ) {
