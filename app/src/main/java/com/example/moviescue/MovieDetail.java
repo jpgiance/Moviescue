@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.moviescue.model.Movie;
+import com.example.moviescue.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 
@@ -60,7 +61,7 @@ public class MovieDetail extends AppCompatActivity {
 
 
                 // ....populating detail screen
-                if(detailMovie.getReleaseDate() != ""){
+                if(!detailMovie.getReleaseDate().equals("")){
                     year.setText(detailMovie.getReleaseDate().substring(0, 4));
                 }else {
                     year.setTextSize(14);
@@ -72,7 +73,7 @@ public class MovieDetail extends AppCompatActivity {
                 vote.setText(detailMovie.getVoteAvg());
 
                 Picasso.get()
-                        .load("https://image.tmdb.org/t/p/w185/" + detailMovie.getImageLink())
+                        .load(NetworkUtils.BASE_POSTER_PATH + NetworkUtils.SIZE_185 + detailMovie.getImageLink())
                         .placeholder(R.mipmap.ic_launcher)
                         .into(poster);
             }

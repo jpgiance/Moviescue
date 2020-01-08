@@ -3,7 +3,6 @@ package com.example.moviescue.utils;
 import com.example.moviescue.model.Movie;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

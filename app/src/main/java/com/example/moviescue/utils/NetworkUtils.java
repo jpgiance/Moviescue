@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.moviescue.BuildConfig;
-import com.example.moviescue.R;
 
 import java.io.IOException;
 import java.io.InputStream;
