@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView movieRecycler;
     private MovieAdapter adapter;
@@ -37,9 +37,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     private MenuItem popularityFilter;
     private MenuItem reviewFilter;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private String POPULARITY = "popularity";
     private String REVIEW = "review";
     private String filter = POPULARITY;        // By default filter popularity is used
+
 
 
 
@@ -67,10 +70,29 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         movieRecycler.setHasFixedSize(true);
 
 
+        // ....setting up the swipe refresh action
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+
         // ....fetching data and populating main screen
         updateActivity(filter);
 
     }
+
+
+
+
+
+
+    @Override
+    public void onRefresh() {
+        updateActivity(filter);
+
+        //setRefreshing(false) will hide the indicator
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
 
 
 
