@@ -10,7 +10,7 @@ import java.util.List;
 
 public class JsonUtils {
 
-    public static final int MOVIES_PER_API_QUERY = 20;
+    private static final int MOVIES_PER_API_QUERY = 20;
 
 
 
@@ -39,11 +39,11 @@ public class JsonUtils {
 
 
                 Movie movie = new Movie(newMovie.optString("title"));
-                movie.SetReleaseDate(newMovie.optString("release_date"));
-                movie.SetOverview(newMovie.optString("overview"));
-                movie.SetImageLink(newMovie.optString("poster_path"));
-                movie.SetVoteAvg(JSONObject.numberToString((Number) newMovie.get("vote_average")));
-                movie.SetPopularity(JSONObject.numberToString((Number)newMovie.get("popularity")));
+                movie.setReleaseDate(newMovie.optString("release_date"));
+                movie.setOverview(newMovie.optString("overview"));
+                movie.setImageLink(newMovie.optString("poster_path"));
+                movie.setVoteAvg(JSONObject.numberToString((Number) newMovie.get("vote_average")));
+                movie.setPopularity(JSONObject.numberToString((Number)newMovie.get("popularity")));
 
                 movieList.add(movie);
 

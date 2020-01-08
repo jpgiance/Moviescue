@@ -22,27 +22,27 @@ public class Movie implements Serializable {
 
 
 
-    public void SetReleaseDate(String date){
+    public void setReleaseDate(String date){
 
         this.releaseDate = date;
     }
 
-    public void SetOverview(String summary){
+    public void setOverview(String summary){
 
         this.overview = summary;
     }
 
-    public void SetImageLink(String link){
+    public void setImageLink(String link){
 
         this.imageLink = link;
     }
 
-    public void SetVoteAvg(String vote){
+    public void setVoteAvg(String vote){
 
         this.voteAvg = vote;
     }
 
-    public void SetPopularity(String popular){
+    public void setPopularity(String popular){
 
         this.popularity = popular;
     }
