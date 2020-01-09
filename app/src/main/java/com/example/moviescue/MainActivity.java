@@ -2,6 +2,7 @@ package com.example.moviescue;
 
 import com.example.moviescue.model.Movie;
 import com.example.moviescue.utils.JsonUtils;
+import com.example.moviescue.utils.MyAsyncTask;
 import com.example.moviescue.utils.NetworkUtils;
 import com.example.moviescue.MovieAdapter.MovieAdapterOnClickHandler;
 
@@ -28,7 +29,9 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler,
+                                                                SwipeRefreshLayout.OnRefreshListener,
+                                                                MyAsyncTask.OnTaskCompleted {
 
     private RecyclerView movieRecycler;
     private MovieAdapter adapter;
@@ -207,7 +210,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         errorMessage.setVisibility(View.INVISIBLE);
         movieRecycler.setVisibility(View.VISIBLE);
 
-        new FetchMovieData().execute(filter);
+
+        MyAsyncTask FetchMovieData = new MyAsyncTask(MainActivity.this);
+        FetchMovieData.execute(filter);
 
     }
 
@@ -215,10 +220,37 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
 
 
+
+    @Override
+    public void preExecute() {
+
+        updateIndicator.setVisibility(View.VISIBLE);
+    }
+
+
+
+
+    @Override
+    public void onTaskCompleted( String queryResponse ) {
+
+        updateIndicator.setVisibility(View.INVISIBLE);
+        if (queryResponse != null) {
+            showMoviesView();
+            adapter.setMoviesList(JsonUtils.parseMovieListJson(queryResponse));
+        } else {
+            showErrorMessage();
+        }
+
+    }
+
+
+   /**
+
+
     /**
      * This class provide the methods that allow Async Task for http communication
      *
-     */
+     *
 
     public class FetchMovieData extends AsyncTask<String, Void, String> {
 
@@ -257,5 +289,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             }
         }
     }
+
+    */
 
 }
