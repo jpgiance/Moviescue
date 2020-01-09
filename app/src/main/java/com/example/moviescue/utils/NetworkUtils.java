@@ -17,7 +17,7 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     public static final String BASE_POSTER_PATH = "https://image.tmdb.org/t/p/";
-    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static final String API_QUERY_SORT_ = "?sort_by=";
     public static final String API_KEY_VALUE = BuildConfig.YOUR_API_KEY;
     public static final String SIZE_92 = "w92";
@@ -27,11 +27,13 @@ public class NetworkUtils {
     public static final String SIZE_500 = "w500";
     public static final String SIZE_780 = "w780";
     public static final String SIZE_ORIGINAL = "original";
-    public static final String SORT_OPTION_1 = "popularity.";
-    public static final String SORT_OPTION_2 = "vote_average.";
+    public static final String SORT_OPTION_1 = "popular?";
+    public static final String SORT_OPTION_2 = "top_rated?";
     public static final String LIST_SORT_ASCENDING = "asc";
     public static final String LIST_SORT_DESCENDING = "desc";
-    public static final String API_QUERY_KEY = "&api_key=";
+    public static final String API_QUERY_KEY = "api_key=";
+
+
 
 
 
@@ -53,9 +55,7 @@ public class NetworkUtils {
 
             case "popularity": {
                 Uri builtUri = Uri.parse(TMDB_BASE_URL
-                        + API_QUERY_SORT_
                         + SORT_OPTION_1
-                        + LIST_SORT_DESCENDING
                         + API_QUERY_KEY
                         + API_KEY_VALUE)
                         .buildUpon()
@@ -72,9 +72,7 @@ public class NetworkUtils {
             }
             case "review": {
                 Uri builtUri = Uri.parse(TMDB_BASE_URL
-                        + API_QUERY_SORT_
                         + SORT_OPTION_2
-                        + LIST_SORT_DESCENDING
                         + API_QUERY_KEY
                         + API_KEY_VALUE)
                         .buildUpon()
